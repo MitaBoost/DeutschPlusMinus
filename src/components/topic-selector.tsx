@@ -28,7 +28,7 @@ export const TopicSelector: React.FC<TopicSelectorProps> = ({
         <Button
           key={topic.title}
           onClick={() => onTopicSelect(topic)}
-          className="text-lg rounded-full px-4 py-2 bg-muted-yellow hover:bg-yellow-200"
+          className="text-lg rounded-full px-4 py-2 bg-muted-yellow hover:bg-yellow-200 text-black"
         >
           {topic.title}
         </Button>
