@@ -2,7 +2,6 @@
 
 import {useState, useEffect} from 'react';
 import {DiscussionTopic} from '@/services/topic-list';
-import {generateArguments, CEFRLevel} from '@/ai/flows/generate-argument-advantages-disadvantages';
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from '@/components/ui/accordion';
 import {Button} from '@/components/ui/button';
 import {Plus, Minus, Save} from 'lucide-react';
@@ -10,8 +9,6 @@ import {Plus, Minus, Save} from 'lucide-react';
 interface ArgumentsDisplayProps {
   topic: DiscussionTopic;
 }
-
-const cefrLevels: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2'];
 
 const levelColors = {
   A1: 'hsl(var(--a1-blue))',
@@ -22,33 +19,13 @@ const levelColors = {
 
 export const ArgumentsDisplay: React.FC<ArgumentsDisplayProps> = ({topic}) => {
   const [argumentsByLevel, setArgumentsByLevel] = useState<{
-    [level in CEFRLevel]: { advantages: string[]; disadvantages: string[] } | null;
+    [level: string]: { advantages: string[]; disadvantages: string[] } | null;
   }>({
-    A1: null,
-    A2: null,
-    B1: null,
-    B2: null,
+    A1: {advantages: [], disadvantages: []},
+    A2: {advantages: [], disadvantages: []},
+    B1: {advantages: [], disadvantages: []},
+    B2: {advantages: [], disadvantages: []},
   });
-
-  useEffect(() => {
-    const fetchArguments = async () => {
-      for (const level of cefrLevels) {
-        const generatedArguments = await generateArguments({
-          topic: topic.title,
-          cefrLevel: level,
-        });
-        setArgumentsByLevel((prev) => ({
-          ...prev,
-          [level]: {
-            advantages: generatedArguments.advantages,
-            disadvantages: generatedArguments.disadvantages,
-          },
-        }));
-      }
-    };
-
-    fetchArguments();
-  }, [topic]);
 
   return (
     <div className="w-full max-w-3xl p-4">
@@ -60,7 +37,7 @@ export const ArgumentsDisplay: React.FC<ArgumentsDisplayProps> = ({topic}) => {
               {`CEFR Level ${level}`}
               <span
                 className="inline-block w-4 h-4 rounded-full"
-                style={{backgroundColor: levelColors[level as CEFRLevel]}}
+                style={{backgroundColor: levelColors[level as keyof typeof levelColors]}}
               />
             </AccordionTrigger>
             <AccordionContent>
