@@ -12,7 +12,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen py-2">
-      <h1 className="text-4xl font-bold mb-4">DeutschDisput</h1>
+      <h1 className="text-4xl font-bold mb-4">DeutschPlusMinus</h1>
       <TopicSelector onTopicSelect={setSelectedTopic} />
       {selectedTopic && (
         <ArgumentsDisplay key={selectedTopic.title} topic={selectedTopic} />
@@ -20,3 +20,4 @@ export default function Home() {
     </div>
   );
 }
+
